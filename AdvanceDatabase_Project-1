@@ -1,0 +1,49 @@
+CREATE OR REPLACE PROCEDURE CARTTOPOLAR(X IN NUMBER, Y IN NUMBER, R OUT NUMBER, THETA OUT NUMBER)
+AS
+BEGIN
+    IF X = 0 AND Y < 0 
+        THEN THETA := 270;
+    ELSIF X = 0 AND Y > 0
+        THEN THETA := 90;
+    ELSIF X = 0 AND Y = 0
+        THEN THETA := 0;
+    ELSE
+        THETA := (atan(Y/X))*57.2957795;
+    END IF;
+        R := sqrt(X*X+Y*Y);
+END;
+/
+
+DECLARE
+    A NUMBER;
+    B NUMBER;
+    C NUMBER;
+    D NUMBER;
+BEGIN
+    A := 0;
+    B := 5;
+    CARTTOPOLAR(A,B,C,D);
+    DBMS_OUTPUT.PUT_LINE('(a) ' || A || ', ' || B || ', ' || C || ', '  || D ||' DEGREES');
+    
+    A := 0;
+    B := 10;
+    CARTTOPOLAR(A,B,C,D);
+    DBMS_OUTPUT.PUT_LINE('(b) ' || A || ', ' || B || ', ' || C || ', '  || D ||' DEGREES');
+
+    A := 5;
+    B := 5;
+    CARTTOPOLAR(A,B,C,D);
+    DBMS_OUTPUT.PUT_LINE('(c) ' || A || ', ' || B || ', ' || C || ', '  || D ||' DEGREES');
+
+    A := 5;
+    B := -5;
+    CARTTOPOLAR(A,B,C,D);
+    DBMS_OUTPUT.PUT_LINE('(d) ' || A || ', ' || B || ', ' || C || ', '  || D ||' DEGREES');
+
+    A := 5;
+    B := 0;
+    CARTTOPOLAR(A,B,C,D);
+    DBMS_OUTPUT.PUT_LINE('(e) ' || A || ', ' || B || ', ' || C || ', '  || D ||' DEGREES');
+
+END;
+/
